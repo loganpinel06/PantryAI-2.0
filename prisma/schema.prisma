@@ -12,3 +12,9 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+//Pantry model
+model Pantry {
+  id Int @id @default(autoincrement())
+  ingredient String 
+}
