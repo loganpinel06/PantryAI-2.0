@@ -11,8 +11,11 @@ const prisma = new PrismaClient();
 //create an Express Router for the pantry route 
 const pantryRouter = express.Router();
 
-pantryRouter.get('/', (req, res, next) => {
-  res.send("Hello World");
+pantryRouter.get('/', async (req, res, next) => {
+  //query the database 
+  const ingredients = await prisma.pantry.findMany();
+  //render the template passing in the ingredients as a template variable
+  res.render('pantry.html', { ingredients: ingredients });
 });
 
 //export the pantryRouter 
