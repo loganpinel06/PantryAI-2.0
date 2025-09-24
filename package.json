@@ -1,0 +1,24 @@
+{
+  "name": "pantryai-2.0",
+  "version": "1.0.0",
+  "description": "A refactor of PantryAI using a full JavaScript ecosystem. -Node.js  -Express.js -Nunjucks Templating -Prisma ORM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loganpinel06/PantryAI-2.0.git"
+  },
+  "author": "Logan Pinel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loganpinel06/PantryAI-2.0/issues"
+  },
+  "homepage": "https://github.com/loganpinel06/PantryAI-2.0#readme",
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "express": "^5.1.0",
+    "prisma": "^6.16.2"
+  }
+}
