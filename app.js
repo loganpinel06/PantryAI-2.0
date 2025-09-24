@@ -4,6 +4,8 @@
 const express = require('express');
 const nunjucks = require('nunjucks');
 const path = require('path');
+//Import Express Routers 
+const pantryRouter = require('./routes/pantryRoute.js');
 
 //create the app
 const app = express();
@@ -18,10 +20,8 @@ nunjucks.configure('templates', {
   express: app,
 });
 
-//create a basic get route for testing
-app.get('/', (req, res, next) => {
-  res.send("Hello World");
-});
+//mount the pantryRouter to the app
+app.use('/pantry', pantryRouter);
 
 //define the apps port
 const port = 3000;
