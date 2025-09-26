@@ -68,5 +68,13 @@ pantryRouter.delete('/delete-ingredient/:id', async (req, res, next) => {
   }
 });
 
+//ERROR HANDLING MIDDLEWARE 
+pantryRouter.use((err, req, res, next) => {
+  //log the error
+  console.log(err)
+  //send a response and status
+  res.status(500).send("Something  Broke");
+});
+
 //export the pantryRouter 
 module.exports = pantryRouter
