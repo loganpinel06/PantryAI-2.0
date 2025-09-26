@@ -88,6 +88,8 @@ const deletePantryItem = async (event) => {
     }
 };
 
+//MAIN CODE
+//ADDING EVENT LISTENERS
 const form = document.getElementById('pantry_form');
 //add an event listener to the submit button to call the fetchPantryItems function when the form is submitted
 form.addEventListener('submit', fetchPantryItems);
