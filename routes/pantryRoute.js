@@ -32,7 +32,7 @@ pantryRouter.post('/add-ingredient', async (req, res, next) => {
     //check if the ingredient req was undefined
     if (!ingredient) {
       //throw an error 
-      throw new Error('Ingredient required');
+      throw new Error("Ingredient required");
     }
     //otherwise, add the ingredient to the database 
     const newIngredient = await prisma.pantry.create({ data: {ingredient: ingredient}});
@@ -40,6 +40,30 @@ pantryRouter.post('/add-ingredient', async (req, res, next) => {
     res.json({ingredient: newIngredient.ingredient, id: newIngredient.id});
   } catch (err) { //catch any errors
     //utilize the next callback to handle errors
+    next(err);
+  }
+});
+
+//DELETE ROUTE 
+pantryRouter.delete('/delete-ingredient/:id', async (req, res, next) => {
+  //try, catch 
+  try {
+    //get the ingredient id from the request parameter
+    const ingredientId = Number(req.params.id);
+    //throw an error if it is undefined 
+    if (!ingredientId) {
+      throw new Error("Cant get that ingredient");
+    }
+    //delete the ingredient from the database by id 
+    const deleteIngredient = await prisma.pantry.delete({
+      where: {
+        id: ingredientId, //id of the ingredient 
+      },
+    });
+    //send a json response to the frontend 
+    res.json({ingredient: deleteIngredient.ingredient, id: deleteIngredient.id});
+  } catch (err) { //catch any errors
+    //ultilize the next callback to handle errors
     next(err);
   }
 });
