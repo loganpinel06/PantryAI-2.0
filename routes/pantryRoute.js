@@ -1,23 +1,23 @@
 //pantryRoute.js will handle all backend routes for the '/pantry' route 
 
 //Imports 
-const express = require('express');
+import express from 'express';
 //import the pantry controllers 
-const pantryController = require('../controllers/pantryController.js');
+import { getIngredients, addIngredient, deleteIngredient } from '../controllers/pantryController.js';
 
 //create an Express Router for the pantry route 
 const pantryRouter = express.Router();
 
 //ROUTES
 //GET ROUTE
-pantryRouter.get('/', pantryController.getIngredients);
+pantryRouter.get('/', getIngredients);
 //POST ROUTE
 //middleware to encode the form submission so it is accessible in the post route 
 //with 'req.body.<formName>'
 pantryRouter.use(express.urlencoded({ extended: true })); //for form submissions
-pantryRouter.post('/add-ingredient', pantryController.addIngredient);
+pantryRouter.post('/add-ingredient', addIngredient);
 //DELETE ROUTE 
-pantryRouter.delete('/delete-ingredient/:id', pantryController.deleteIngredient);
+pantryRouter.delete('/delete-ingredient/:id', deleteIngredient);
 
 //ERROR HANDLING MIDDLEWARE 
 //(can move this to a global file later if more middlewares get used)
@@ -29,4 +29,5 @@ pantryRouter.use((err, req, res, next) => {
 });
 
 //export the pantryRouter 
-module.exports = pantryRouter
+//use default since the router is the main (only) thing being exported from this file
+export default pantryRouter;

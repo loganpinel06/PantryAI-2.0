@@ -2,14 +2,14 @@
 
 //Imports 
 //Prisma Client 
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 
 //create the prisma client for database access
 const prisma = new PrismaClient();
 
 //handle backend logic for the GET request 
 //this will get ALL ingredients from the database 
-exports.getIngredients = async (req, res, next) => {
+export const getIngredients = async (req, res, next) => {
   //try, catch 
   try {
     //query the database 
@@ -22,7 +22,7 @@ exports.getIngredients = async (req, res, next) => {
 };
 
 //handle backend logic for the POST request
-exports.addIngredient = async (req, res, next) => {
+export const addIngredient = async (req, res, next) => {
   //try, catch
   try {
     //get the ingredient from the req.body (this is why we added the urlencoder middleware)
@@ -43,7 +43,7 @@ exports.addIngredient = async (req, res, next) => {
 };
 
 //handle backend logic for the DELETE request 
-exports.deleteIngredient = async (req, res, next) => {
+export const deleteIngredient = async (req, res, next) => {
   //try, catch 
   try {
     //get the ingredient id from the request parameter

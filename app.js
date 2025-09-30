@@ -1,11 +1,16 @@
 //app.js will run the main express application
 
 //Import Modules
-const express = require('express');
-const nunjucks = require('nunjucks');
-const path = require('path');
+import express from 'express';
+import nunjucks from 'nunjucks';
+import path from 'path';
+import { fileURLToPath } from 'url';
 //Import Express Routers 
-const pantryRouter = require('./routes/pantryRoute.js');
+import pantryRouter from './routes/pantryRoute.js';
+
+//remake __dirname for ES6 syntax
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //create the app
 const app = express();
