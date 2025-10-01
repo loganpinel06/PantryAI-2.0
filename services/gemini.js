@@ -6,18 +6,45 @@ import { GoogleGenAI } from "@google/genai";
 import dotenv from 'dotenv';
 dotenv.config();
 
-//https://ai.google.dev/gemini-api/docs/quickstart boiler plate code
-//The client gets the API key from the environment variable `GEMINI_API_KEY`.
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+//create a async function to prompt the Gemini API for a recipe 
+const generate_recipe = async (ingredients_list, meal_type) => {
+  /*
+   *Generate recipes using the Gemini API based on provided ingredients and meal type.
+   *Args:
+        ingredients_list (list[str]): List of available ingredients
+        meal_type (str): Type of meal (e.g., 'breakfast', 'lunch', 'dinner')
+   *Returns:
+        Response object from Gemini API containing recipe data, or an error message if error occurs
+   */
+  //try, catch block to handle errors when generating a recipe 
+  try {
+    //initialize the client 
+    const ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+    });
 
-async function main() {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: "Explain how AI works in a few words",
-  });
-  console.log(response.text);
-}
+    //define the prompt 
+    prompt = `
+      Imagine you are needing to cook a meal using only the ingredients available to you in your pantry.
+      You are a professional chef with years of experience crafting delicious meals.
+      You are tasking with creating a meal for a specific meal type ${meal_type}.
+      You have the following ingredients available to you: ${ingredients_list.join(', ')}.
+      Please create two quality recipes and provide detailed instructions for how to prepare each recipe.
+    `;
 
-main();
+    //send the prompt to the Gemini API 
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-lite",
+      contents: prompt,
+    })
+
+    //return the response 
+    return response.text;
+  } catch (err) {
+    //log the error
+    console.log(err);
+  }
+};
+
+//export the generate_recipe function
+export default generate_recipe;
