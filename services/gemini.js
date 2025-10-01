@@ -36,6 +36,28 @@ const generate_recipe = async (ingredients_list, meal_type) => {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash-lite",
       contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              recipe_name: { type: Type.STRING },
+              meal_type: { type: Type.STRING },
+              ingredients: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
+              instructions: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
+            },
+            propertyOrdering: ["recipeName", "ingredients", "ingredients", "instructions"],
+          },
+        },
+      },
     })
 
     //return the response 
