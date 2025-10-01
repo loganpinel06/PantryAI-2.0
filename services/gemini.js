@@ -1,4 +1,5 @@
 //gemini.js will integrate the Google Gemini API create the AI Model
+//documentation followed https://ai.google.dev/gemini-api/docs/quickstart
 
 //imports
 import { GoogleGenAI } from "@google/genai";
@@ -37,6 +38,8 @@ const generate_recipe = async (ingredients_list, meal_type) => {
       model: "gemini-2.5-flash-lite",
       contents: prompt,
       config: {
+        //configure the response to JSON 
+        //and provide the structure of the JSON 
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.ARRAY,
@@ -57,11 +60,16 @@ const generate_recipe = async (ingredients_list, meal_type) => {
             propertyOrdering: ["recipeName", "ingredients", "ingredients", "instructions"],
           },
         },
+        //Disable Thinking
+        thinkingConfig: {
+          thinkingBudget: 0,
+        },
       },
     })
 
     //return the response 
     return response.text;
+
   } catch (err) {
     //log the error
     console.log(err);
