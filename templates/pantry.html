@@ -2,29 +2,82 @@
 
 {% block content %}
 
-<h1>Pantry</h1>
+<!-- Main Grid Layout Container -->
+<div class="pantry-layout">
+    <!-- Pantry Table (Left Side) -->
+    <div class="tabledata">
+        <h2 class="container-title">Pantry Ingredients</h2>
+        <table>
+            <thead>
+                <th>Ingredient</th>
+                <th>Actions</th>
+            </thead>
+            <tbody id="pantry-table-body">
+                {% for item in ingredients %}
+                    <tr data-id="{{ item.id }}">
+                        <td>{{ item.ingredient }}</td>
+                        <td>
+                            <button type="button" class="delete-button" data-id="{{ item.id }}">&times;</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<table>
-  <thead>
-    <th>Ingredient</th>
-    <th>Actions</th>
-  </thead>
-  <tbody id="pantry-table-body">
-    {% for item in ingredients %}
-    <tr data-id="{{item.id}}">
-        <td>{{ item.ingredient }}</td>
-        <td>
-          <button type="button" class="delete-button" data-id="{{ item.id }}">&times;</button>
-        </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <!-- Forms Section (Right Side) -->
+    <div class="forms-section">
+        <!-- Pantry Form -->
+        <div class="pantry_form">
+            <h2 class="container-title">Add Ingredients</h2>
+            <form id="pantry-form" method="POST" action="/pantry/add-ingredient">
+                <!-- CSRF Token for security and other hidden elements -->
+                <!-- Nest the form fields in divs to give the form rows -->
+                <div class="form-row">
+                    <!-- Ingredient Input -->
+                    <label for="ingredient">Ingredient: </label>
+                    <input type="text" id="ingredient" name="ingredient" required>
+                </div>
+                <div class="form-row">
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-button">Add</button>
+                </div>
+            </form>
+        </div>
 
-<form id="pantry_form" method="POST" action="/pantry/add-ingredient">
-  <input type="text" name="ingredient" required>
-  <button type="submit">Submit</button>
-</form>
+        <!-- Recipe Generation Section -->
+        <!-- Generate Recipes Form -->
+        <div class="generate_recipes_form">
+            <h2 class="container-title">Generate Recipes</h2>
+            <form id="generate-recipes-form" method="POST">
+                <!-- CSRF Token for security and other hidden elements -->
+                
+                <!-- Nest the form fields in divs to give the form rows -->
+                <div class="form-row">
+                    <!-- Ingredient Input -->
+                    <!-- Containerize the label -->
+                    <div class="meal-type-label">
+                        <label for="meal_type">Meal Type: </label>
+                    </div>
+                    <input type="radio" id="type_breakfast" name="meal_types" value="Breakfast">
+                    <label for="type_breakfast">Breakfast</label>
+                    <input type="radio" id="type_lunch" name="meal_types" value="Lunch">
+                    <label for="type_lunch">Lunch</label>
+                    <input type="radio" id="type_dinner" name="meal_types" value="Dinner">
+                    <label for="type_dinner">Dinner</label>
+                </div>
+                <div class="form-row">
+                    <!-- Submit Button -->
+                    <button type="submit" id="meal-type-submit">Generate</button>
+                </div>
+            </form>
+        </div>
+        <!-- Recipe Section (WILL BE HANDLED BY JAVASCRIPT) -->
+        <div class="recipe_section" style="display: none;">
+            <h2>Generated Recipes</h2>
+        </div>
+    </div>
+</div>
 
 <script src="/static/pantry.js"></script>
 
