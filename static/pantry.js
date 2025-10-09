@@ -38,7 +38,7 @@ const fetchPantryItems = async (event) => {
   event.preventDefault();
   //get the tableBody element and form from the DOM
   const tableBody = document.getElementById('pantry-table-body');
-  const form = document.getElementById('pantry_form');
+  const form = document.getElementById('pantry-form');
   //create a new FormData object to represent data as key-value pairs
   const formData = new FormData(form);
   //try, catch
@@ -126,7 +126,7 @@ const deletePantryItem = async (event) => {
 
 //MAIN CODE
 //ADDING EVENT LISTENERS
-const form = document.getElementById('pantry_form');
+const form = document.getElementById('pantry-form');
 //add an event listener to the submit button to call the fetchPantryItems function when the form is submitted
 form.addEventListener('submit', fetchPantryItems);
 //get the delete buttons from the DOM
