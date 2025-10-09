@@ -3,7 +3,7 @@
 //Imports 
 import express from 'express';
 //import the pantry controllers 
-import { getIngredients, addIngredient, deleteIngredient } from '../controllers/pantryController.js';
+import { getIngredients, addIngredient, deleteIngredient, generateRecipes } from '../controllers/pantryController.js';
 
 //create an Express Router for the pantry route 
 const pantryRouter = express.Router();
@@ -18,6 +18,8 @@ pantryRouter.use(express.urlencoded({ extended: true })); //for form submissions
 pantryRouter.post('/add-ingredient', addIngredient);
 //DELETE ROUTE 
 pantryRouter.delete('/delete-ingredient/:id', deleteIngredient);
+//GENERATE RECIPE ROUTE
+pantryRouter.post('/generate-recipes', generateRecipes);
 
 //ERROR HANDLING MIDDLEWARE 
 //(can move this to a global file later if more middlewares get used)
