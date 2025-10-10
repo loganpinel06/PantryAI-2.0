@@ -2,7 +2,7 @@
 //documentation followed https://ai.google.dev/gemini-api/docs/quickstart
 
 //imports
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type} from "@google/genai";
 //require and configure dotenv for reading .env variables 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -25,7 +25,7 @@ const generate_recipe = async (ingredients_list, meal_type) => {
     });
 
     //define the prompt 
-    prompt = `
+    const prompt = `
       Imagine you are needing to cook a meal using only the ingredients available to you in your pantry.
       You are a professional chef with years of experience crafting delicious meals.
       You are tasking with creating a meal for a specific meal type ${meal_type}.
@@ -57,7 +57,7 @@ const generate_recipe = async (ingredients_list, meal_type) => {
                 items: { type: Type.STRING },
               },
             },
-            propertyOrdering: ["recipeName", "ingredients", "ingredients", "instructions"],
+            propertyOrdering: ["recipe_name", "meal_type", "ingredients", "instructions"],
           },
         },
         //Disable Thinking

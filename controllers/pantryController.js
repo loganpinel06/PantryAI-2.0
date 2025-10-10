@@ -3,6 +3,8 @@
 //Imports 
 //Prisma Client 
 import { PrismaClient } from '@prisma/client';
+//import the generate_recipe function from the services/gemini.js file 
+import generate_recipe from '../services/gemini.js';
 
 //create the prisma client for database access
 const prisma = new PrismaClient();
@@ -75,6 +77,9 @@ export const generateRecipes = async (req, res, next) => {
   const mealType = req.body.meal_types;
   //create a list of ingredients from the pantryItems 
   const ingredientList = pantryItems.map(item => item.ingredient);
-  res.json({ingredientList: ingredientList, meal_type: mealType});
+  //use the gemini api to generate recipes in JSON 
+  const recipes = await generate_recipe(ingredientList, mealType);
+  //send a json response to the frontend with the recipes as data 
+  res.json({recipes: recipes});
 };
 
