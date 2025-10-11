@@ -124,6 +124,90 @@ const deletePantryItem = async (event) => {
     }
 };
 
+//async function to generate recipes based on pantry items provided 
+const generateRecipes = async (event) => {
+  //prevent the default form submission behavior 
+  event.preventDefault()
+  //get the div element to display recipes from the DOM 
+  const recipesDiv = document.getElementsByClassName('recipe_section')[0];
+  //get the form element from the DOM for generating recipes 
+  const form = document.getElementById('generate_recipes_form');
+  //create a new FormData object to send the form data 
+  const formData = new FormData(form);
+
+  //try, catch block
+  try {
+    //fetch the recipes from the server
+    const response = await fetch('/pantry/generate-recipes', {
+      method: 'POST',
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData), // converts FormData → urlencoded string
+    });
+    //check if the response is not ok and thron an error 
+    if (!response.ok) {
+      throw new Error('Problem fetching recipes from server route: /pantry/generate-recipes');
+    }
+    //parse the response as JSON 
+    const recipeData = await response.json();
+    //clear the recipes div but keep the h2 
+    recipesDiv.innerHTML = '<h2>Generated Recipes</h2>';
+    
+    //create new divs for each recipe and append them to the recipes div 
+    recipeData.forEach(recipe => {
+      //create new div for the recipe button and dialog 
+      const recipeButtonDiv = document.createElement('div');
+      //set the class name and inner HTML for the recipe button and dialog
+      recipeButtonDiv.className = 'recipe_button_div';
+      recipeButtonDiv.innerHTML = `
+        <button class="recipe_button">${recipe.recipe_name}</button>
+        <dialog class="recipe_dialog">
+          <h3>${recipe.recipe_name}</h3>
+          <h4>Meal Type: ${recipe.meal_type}</h4>
+          <h4>Ingredients:</h4>
+          <ul>
+            ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+          </ul>
+          <ol>
+            ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+          </ol>
+          <button class="close_dialog">Close</button>
+          <button class="save_recipe">Save Recipe</button>
+        </dialog>
+      `;
+      //set the recipesDiv style display to block to make it visible
+      recipesDiv.style.display = 'block';
+      //add event listeners to the recipe and close buttons 
+      //get the HTML elements 
+      const recipeButton = recipeButtonDiv.querySelector('.recipe_button');
+      const recipeDialog = recipeButtonDiv.querySelector('.recipe_dialog');
+      const closeDialogButton = recipeButtonDiv.querySelector('.close_dialog');
+      const saveRecipeButton = recipeButtonDiv.querySelector('.save_recipe');
+
+      //handle the events
+      recipeButton.addEventListener('click', () => {
+        //open the dialog when the recipe button is clicked 
+        recipeDialog.showModal();
+        //ensure the dialog scrolls to the top 
+        recipeDialog.scrollTop = 0;
+      });
+      closeDialogButton.addEventListener('click', () => {
+        //close the dialog when the close button is clicked 
+        recipeDialog.close();
+      });
+      //ADD FUNCTIONALITY FOR SAVE RECIPES 
+      
+      //append the recipe button div to the recipes div 
+      recipesDiv.appendChild(recipeButtonDiv);
+    });
+    //reset the form 
+    form.reset();
+  //catch any errors
+  } catch (error) {
+    //log the error to the console
+    console.error('Error generating recipes:', error);
+  }
+};
+
 //MAIN CODE
 //ADDING EVENT LISTENERS
 const form = document.getElementById('pantry-form');
@@ -135,3 +219,8 @@ const deleteButtons = document.querySelectorAll('.delete-button');
 deleteButtons.forEach(button => {
     button.addEventListener('click', deletePantryItem);
 });
+
+//get the generate recipes form from the DOM
+const generateRecipesForm = document.getElementById('generate_recipes_form');
+//add an event listener to the submit button to call the generateRecipes function when clicked 
+generateRecipesForm.addEventListener('submit', generateRecipes);

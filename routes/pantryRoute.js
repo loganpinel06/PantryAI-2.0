@@ -19,6 +19,7 @@ pantryRouter.post('/add-ingredient', addIngredient);
 //DELETE ROUTE 
 pantryRouter.delete('/delete-ingredient/:id', deleteIngredient);
 //GENERATE RECIPE ROUTE
+pantryRouter.use(express.urlencoded({ extended: true })); //for form submissions
 pantryRouter.post('/generate-recipes', generateRecipes);
 
 //ERROR HANDLING MIDDLEWARE 

@@ -71,7 +71,7 @@ export const deleteIngredient = async (req, res, next) => {
 //GEMINI API ROUTES 
 //backend logic for generating a recipe with gemini api 
 export const generateRecipes = async (req, res, next) => {
-  //try, catch
+  //try, catch block
   try {
     //query the pantry model to get all pantry items
     const pantryItems = await prisma.pantry.findMany();
@@ -82,9 +82,8 @@ export const generateRecipes = async (req, res, next) => {
     //use the gemini api to generate recipes in JSON 
     const recipes = await generate_recipe(ingredientList, mealType);
     //send a json response to the frontend with the recipes as data 
-    res.json({recipes: recipes});
-  //catch any errors
-  } catch (err) {
+    res.json(recipes);
+  } catch (err) { //catch any errors
     next(err);
   }
 };

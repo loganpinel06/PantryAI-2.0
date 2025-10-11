@@ -2,7 +2,7 @@
 //documentation followed https://ai.google.dev/gemini-api/docs/quickstart
 
 //imports
-import { GoogleGenAI, Type} from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 //require and configure dotenv for reading .env variables 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -67,8 +67,8 @@ const generate_recipe = async (ingredients_list, meal_type) => {
       },
     })
 
-    //return the response 
-    return response.text;
+    //return the response as parsed JSON
+    return JSON.parse(response.text);
 
   } catch (err) {
     //log the error
