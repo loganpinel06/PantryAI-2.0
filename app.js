@@ -7,6 +7,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 //Import Express Routers 
 import pantryRouter from './routes/pantryRoute.js';
+//Import prisma
+import { PrismaClient } from '@prisma/client';
+
+//create the prisma client and export it 
+export const prisma = new PrismaClient();
 
 //remake __dirname for ES6 syntax
 const __filename = fileURLToPath(import.meta.url);

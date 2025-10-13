@@ -11,15 +11,14 @@ const pantryRouter = express.Router();
 //ROUTES
 //GET ROUTE
 pantryRouter.get('/', getIngredients);
-//POST ROUTE
 //middleware to encode the form submission so it is accessible in the post route 
 //with 'req.body.<formName>'
 pantryRouter.use(express.urlencoded({ extended: true })); //for form submissions
+//POST ROUTE
 pantryRouter.post('/add-ingredient', addIngredient);
 //DELETE ROUTE 
 pantryRouter.delete('/delete-ingredient/:id', deleteIngredient);
 //GENERATE RECIPE ROUTE
-pantryRouter.use(express.urlencoded({ extended: true })); //for form submissions
 pantryRouter.post('/generate-recipes', generateRecipes);
 
 //ERROR HANDLING MIDDLEWARE 

@@ -2,12 +2,9 @@
 
 //Imports 
 //Prisma Client 
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../app.js';
 //import the generate_recipe function from the services/gemini.js file 
 import generate_recipe from '../services/gemini.js';
-
-//create the prisma client for database access
-const prisma = new PrismaClient();
 
 //handle backend logic for the GET request 
 //this will get ALL ingredients from the database 
