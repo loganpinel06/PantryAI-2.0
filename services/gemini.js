@@ -7,6 +7,14 @@ import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from 'dotenv';
 dotenv.config();
 
+//initialize the client
+//we can do this at a toplevel even though this file is never run because when the exported function is imported
+//and used in another file Node.js has a module caching system that will run this files top-level code exactly once
+//which will initialize the client once for the entire app
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
 //create a async function to prompt the Gemini API for a recipe 
 const generate_recipe = async (ingredients_list, meal_type) => {
   /*
@@ -18,12 +26,7 @@ const generate_recipe = async (ingredients_list, meal_type) => {
         Response object from Gemini API containing recipe data, or an error message if error occurs
    */
   //try, catch block to handle errors when generating a recipe 
-  try {
-    //initialize the client 
-    const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
-    });
-
+  try { 
     //define the prompt 
     const prompt = `
       Imagine you are needing to cook a meal using only the ingredients available to you in your pantry.
