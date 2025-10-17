@@ -14,6 +14,12 @@ datasource db {
   directUrl = env("DIRECT_URI")
 }
 
+//User model 
+//this will only store the userId from supabase so that data can be tied to specific users on the backend
+model User {
+  userId String @id //supabase userId 
+}
+
 //Pantry model
 model Pantry {
   id Int @id @default(autoincrement())

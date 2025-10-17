@@ -9,6 +9,8 @@ import { createClient } from '@supabase/supabase-js';
 //import dotenv and configure it
 import dotenv from 'dotenv';
 dotenv.config();
+//import the prisma client from app.js
+import { prisma } from '../app.js';
 
 //create the supabase client
 const supabase = createClient(process.env.PROJECT_URL, process.env.ANON_KEY);
@@ -38,6 +40,38 @@ export const renderRegister = async (req, res, next) => {
 };
 
 //function to handle registering a new user
-//const registerUser = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
+  //try, catch 
+  try {
+    //get the email, password, and confirmPassword from req.body 
+    const {email, password, confirmPassword} = req.body;
+    //conditionals to make sure data was actually provided
+    if (!email) {
+      throw new Error('Email required');
+    } else if (!password) {
+      throw new Error('Password required');
+    } else if (!confirmPassword) {
+      throw new Error('Please confirm your password');
+    }
 
-//};
+    //conditional to check if the password and confirmPassword dont match 
+    if (password !== confirmPassword) {
+      throw new Error('Passwords do not match');
+    }
+
+    //create a new user in the supabase client 
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+    //check if there was an error with supabase 
+    if (error) {
+      next(error);
+    }
+    //get the new users id to store in prisma for data connection 
+    const userId = data.user.id;
+
+  } catch (err) {
+    next(err);
+  }
+};
