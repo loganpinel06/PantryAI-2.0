@@ -3,7 +3,7 @@
 //imports 
 import express from "express";
 //import controller functions from '../controllers/authController.js'
-import { renderLogin, renderRegister, registerUser} from "../controllers/authController.js";
+import { renderLogin, renderRegister, registerUser, loginUser} from "../controllers/authController.js";
 
 //create a router for authentication
 const authRouter = express.Router();
@@ -22,6 +22,8 @@ authRouter.get('/register', renderRegister);
 authRouter.use(express.urlencoded({ extended: true })); //for form submissions
 //route to register a new user 
 authRouter.post('/register/newUser', registerUser);
+//route to login a user 
+authRouter.post('/loginUser', loginUser);
 
 //ERROR HANDLING MIDDLEWARE 
 authRouter.use((err, req, res, next) => {

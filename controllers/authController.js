@@ -78,3 +78,34 @@ export const registerUser = async (req, res, next) => {
     next(err);
   }
 };
+
+//function to handle logging in a user 
+export const loginUser = async (req, res, next) => {
+  //try, catch 
+  try {
+    //get the email and password from the req.body 
+    const {email, password} = req.body;
+    //conditionals to make sure data was actually provided
+    if (!email) {
+      throw new Error('Email required');
+    } else if (!password) {
+      throw new Error('Password required');
+    }
+
+    //login the user with supabase client 
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+    //check if there was an error 
+    if (error) {
+      next(error);
+    }
+
+    //redirect to the pantry route 
+    res.redirect('/pantry');
+
+  } catch (err) {
+    next(err);
+  }
+}
