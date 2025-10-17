@@ -9,8 +9,6 @@ import { createClient } from '@supabase/supabase-js';
 //import dotenv and configure it
 import dotenv from 'dotenv';
 dotenv.config();
-//import the prisma client from app.js
-import { prisma } from '../app.js';
 
 //create the supabase client
 const supabase = createClient(process.env.PROJECT_URL, process.env.ANON_KEY);
@@ -70,6 +68,11 @@ export const registerUser = async (req, res, next) => {
     }
     //get the new users id to store in prisma for data connection 
     const userId = data.user.id;
+    //add the userId to the prisma Users model 
+    await prisma.user.create({data: {userId: userId}});
+
+    //redirect users to the login page 
+    res.redirect('/');
 
   } catch (err) {
     next(err);
