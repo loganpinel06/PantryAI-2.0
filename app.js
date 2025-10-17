@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 //Import Express Routers 
 import pantryRouter from './routes/pantryRoute.js';
+import authRouter from './routes/authRoute.js';
 //Import prisma
 import { PrismaClient } from '@prisma/client';
 
@@ -30,6 +31,9 @@ nunjucks.configure('templates', {
   express: app,
 });
 
+//mount the authRouter to the app
+//this will be the "landing page"
+app.use('/', authRouter);
 //mount the pantryRouter to the app
 app.use('/pantry', pantryRouter);
 
