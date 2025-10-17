@@ -13,6 +13,18 @@ dotenv.config();
 //create the supabase client
 const supabase = createClient(process.env.PROJECT_URL, process.env.ANON_KEY);
 
+//handle logic for GET request on the login route (landing page "/")
+//simply render a template 
+export const renderLogin = async (req, res, next) => {
+  //try, catch
+  try {
+    //render the login template 
+    res.render('login.html');
+  } catch (err) {
+    next(err);
+  }
+}
+
 //handle logic for GET request on the /register route 
 //this will simply render the template 
 export const renderRegister = async (req, res, next) => {

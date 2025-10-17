@@ -3,7 +3,7 @@
 //imports 
 import express from "express";
 //import controller functions from '../controllers/authController.js'
-import { renderRegister } from "../controllers/authController.js";
+import { renderLogin, renderRegister } from "../controllers/authController.js";
 
 //create a router for authentication
 const authRouter = express.Router();
@@ -11,7 +11,7 @@ const authRouter = express.Router();
 //ROUTES 
 //GET ROUTES (render templates) 
 //login template 
-
+authRouter.get('/', renderLogin);
 //register template
 authRouter.get('/register', renderRegister);
 
