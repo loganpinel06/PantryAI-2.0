@@ -5,13 +5,7 @@
 //prisma client 
 import { prisma } from '../app.js';
 //import supabase client 
-import { createClient } from '@supabase/supabase-js';
-//import dotenv and configure it
-import dotenv from 'dotenv';
-dotenv.config();
-
-//create the supabase client
-const supabase = createClient(process.env.PROJECT_URL, process.env.ANON_KEY);
+import { supabase } from '../services/supabase.js';
 
 //handle logic for GET request on the login route (landing page "/")
 //simply render a template 
