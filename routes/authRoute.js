@@ -3,7 +3,7 @@
 //imports 
 import express from "express";
 //import controller functions from '../controllers/authController.js'
-import { renderLogin, renderRegister, registerUser, loginUser} from "../controllers/authController.js";
+import { renderLogin, renderRegister, registerUser, loginUser, logoutUser} from "../controllers/authController.js";
 
 //create a router for authentication
 const authRouter = express.Router();
@@ -15,6 +15,8 @@ const authRouter = express.Router();
 authRouter.get('/', renderLogin);
 //register template
 authRouter.get('/register', renderRegister);
+//logout a user 
+authRouter.get('/logout', logoutUser);
 
 //POST ROUTES 
 //middleware to encode the form submission so it is accessible in the post route 

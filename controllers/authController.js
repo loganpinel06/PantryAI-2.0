@@ -12,8 +12,11 @@ import { supabase } from '../services/supabase.js';
 export const renderLogin = async (req, res, next) => {
   //try, catch
   try {
-    //render the login template 
-    res.render('login.html');
+    //get the query string (might not exist if the user hasn't trie to access a protected
+    //route but this condition will be handled in the nunjucks template)
+    const message = req.query.message;
+    //render the login template and pass the message to nunjucks
+    res.render('login.html', { message });
   } catch (err) {
     next(err);
   }
@@ -96,6 +99,9 @@ export const loginUser = async (req, res, next) => {
       next(error);
     }
 
+    //send a cookie for the user 
+    res.cookie("access_token", data.session.access_token, { httpOnly: true });
+
     //redirect to the pantry route 
     res.redirect('/pantry');
 
@@ -103,3 +109,11 @@ export const loginUser = async (req, res, next) => {
     next(err);
   }
 }
+
+//function to handle logout 
+export const logoutUser = async (req, res, next) => {
+  //clear the cookie access_token 
+  res.clearCookie("access_token");
+  //redirect to the login page
+  res.redirect("/");
+};

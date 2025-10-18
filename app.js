@@ -5,6 +5,8 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import { fileURLToPath } from 'url';
+//import the cookie parser middleware
+import cookieParser from 'cookie-parser';
 //Import Express Routers 
 import pantryRouter from './routes/pantryRoute.js';
 import authRouter from './routes/authRoute.js';
@@ -24,6 +26,9 @@ const app = express();
 //serve static files from the 'static' directory
 //these files will be used for frontend functionality
 app.use('/static', express.static(path.join(__dirname, 'static')));
+
+//mount middleware 
+app.use(cookieParser());
 
 //configure nunjucks templating 
 nunjucks.configure('templates', {

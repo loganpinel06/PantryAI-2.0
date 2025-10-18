@@ -4,9 +4,14 @@
 import express from 'express';
 //import the pantry controllers 
 import { getIngredients, addIngredient, deleteIngredient, generateRecipes } from '../controllers/pantryController.js';
+//import the requireAuth middleware 
+import { requireAuth } from '../middleware/requireAuth.js';
 
 //create an Express Router for the pantry route 
 const pantryRouter = express.Router();
+
+//mount requireAuth middleware to the pantry routes 
+pantryRouter.use(requireAuth);
 
 //ROUTES
 

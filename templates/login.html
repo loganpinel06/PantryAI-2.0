@@ -2,6 +2,14 @@
 
 {% block content %}
 
+<!-- div to handle protected message "please login"-->
+{% if message %} 
+  <div class="protected-message">
+    <p>{{ message }}</p>
+    <!-- add functionality to close the popup-->
+  </div>
+{% endif %}
+
 <div class="loginForm">
   <!-- Main h1 for the login page -->
   <h2>Login</h2>
