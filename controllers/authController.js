@@ -115,5 +115,5 @@ export const logoutUser = async (req, res, next) => {
   //clear the cookie access_token 
   res.clearCookie("access_token");
   //redirect to the login page
-  res.redirect("/");
+  res.redirect("/?message=Logout+successful");
 };
