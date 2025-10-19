@@ -18,10 +18,20 @@ datasource db {
 //this will only store the userId from supabase so that data can be tied to specific users on the backend
 model User {
   userId String @id //supabase userId 
+  //relate the user to the pantry model
+  //one-to-many relation (user has multiple pantry (ingredient) items)
+  ingredients Pantry[]
 }
 
 //Pantry model
 model Pantry {
   id Int @id @default(autoincrement())
   ingredient String 
+  userId String 
+  //relate the Pantry model to the Users model 
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  //onDelete: Cascade will delete all related ingredients if a User is deleted
+
+  //compound the ingredient id with the userId for deletion purposes
+  @@unique([id, userId])
 }

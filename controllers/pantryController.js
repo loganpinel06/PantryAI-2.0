@@ -5,14 +5,20 @@
 import { prisma } from '../app.js';
 //import the generate_recipe function from the services/gemini.js file 
 import generate_recipe from '../services/gemini.js';
+//import the supabase client 
+import { supabase } from '../services/supabase.js';
 
 //handle backend logic for the GET request 
 //this will get ALL ingredients from the database 
 export const getIngredients = async (req, res, next) => {
   //try, catch 
   try {
-    //query the database 
-    const ingredients = await prisma.pantry.findMany();
+    //get the user and token from the req object 
+    const userId = req.user.id;
+    //query the database by the userId 
+    const ingredients = await prisma.pantry.findMany({
+      where: { userId: userId }
+    });
     //render the pantry template passing in the ingredients as a template variable
     res.render('pantry.html', { ingredients: ingredients });
   } catch (err) { //handle any errors
@@ -32,7 +38,12 @@ export const addIngredient = async (req, res, next) => {
       throw new Error("Ingredient required");
     }
     //otherwise, add the ingredient to the database 
-    const newIngredient = await prisma.pantry.create({ data: {ingredient: ingredient}});
+    const newIngredient = await prisma.pantry.create({ 
+      data: {
+        ingredient: ingredient, //add the ingredient
+        userId: req.user.id, //make sure the ingredient is added to the current user
+      }
+    });
     //send a json response to the frontend
     res.json({ingredient: newIngredient.ingredient, id: newIngredient.id});
   } catch (err) { //catch any errors
@@ -54,7 +65,10 @@ export const deleteIngredient = async (req, res, next) => {
     //delete the ingredient from the database by id 
     const deleteIngredient = await prisma.pantry.delete({
       where: {
-        id: ingredientId, //id of the ingredient 
+        id_userId: { //compounded model-level attribute
+          id: ingredientId, //id of the ingredient
+          userId: req.user.id, //make sure the correct user is queried
+        }
       },
     });
     //send a json response to the frontend 
