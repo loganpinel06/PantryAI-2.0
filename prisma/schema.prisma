@@ -35,3 +35,9 @@ model Pantry {
   //compound the ingredient id with the userId for deletion purposes
   @@unique([id, userId])
 }
+
+//Saved Recipes Model 
+model SavedRecipes {
+  id Int @id 
+  recipe Json 
+}
