@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URI")
+  url      = env("DATABASE_URI") //this will show as an error in code editors/IDEs but will work since we are using a downgraded prisma version
   directUrl = env("DIRECT_URI")
 }
 
